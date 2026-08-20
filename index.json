@@ -2,5 +2,18 @@
   "schemaVersion": 1,
   "name": "DSH 官方配置市场",
   "description": "DSH Config Manager 社区配置共享：settings / 模型供应商 / 插件 / skill / agent preset 等配置包",
-  "items": []
+  "items": [
+    {
+      "id": "common-plugins-and-skills",
+      "name": "常用插件+skill技能合集",
+      "description": "常用 DSH 插件列表 + 常用技能合集（精选零敏感内容技能）",
+      "author": "xiajiajun516",
+      "version": "1.0.0",
+      "updatedAt": "2026-08-20T08:28:15.900Z",
+      "categories": [
+        "plugins",
+        "skills"
+      ]
+    }
+  ]
 }
