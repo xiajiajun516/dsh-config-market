@@ -19,6 +19,10 @@
 dsh-config-market/
 ├── index.json                  # L1 市场目录（唯一必建文件）
 ├── README.md                   # 本文件
+├── scripts/                    # 自动化工具（见「发布/更新/投稿 实操指南」）
+│   ├── publish.mjs             #   一键发布/更新条目
+│   └── validate-repo.mjs       #   仓库预检（CI 自动调用）
+├── .github/workflows/          # CI 配置（push/PR 自动预检）
 └── items/
     └── <itemId>/               # 每个条目一个目录；目录名 = itemId
         ├── manifest.json       # L2 条目清单（sections + checksums + 供应链信息）
@@ -39,6 +43,84 @@ dsh-config-market/
 > 💡 **最省事的生成方式**：不要手写 `config.zip` —— 用 dsh-config-manager 插件的
 > 「导出」功能生成备份 zip（结构天然正确），再用「发布到市场 → 生成条目包」自动产出
 > `manifest.json` 与 SHA-256。本仓库的人工维护只碰 `index.json` 引用。
+
+## 发布 / 更新 / 投稿 实操指南（自动化）
+
+本仓库配套了两个自动化工具（`scripts/` 目录），把「发布 → 校验 → 收录」从手工操作变成一条命令 + 自动安检。
+
+### 什么时候用哪个（先看这个）
+
+| 你想做什么 | 用什么 | 要手动操作吗 |
+|---|---|---|
+| **发布一个新条目**（第一次上架） | `publish.mjs` | 要，跑一条命令 |
+| **更新一个已有条目**（出新版本） | `publish.mjs` | 要，跑一条命令 |
+| **检查仓库有没有问题**（重复 id / 校验不过 / 含密钥） | CI 自动跑 `validate-repo.mjs` | **不用**，push 后机器人自动查 |
+| **在 GitHub 上看检查结果** | GitHub 网页的 Actions 标签页 | 不用，push 后自动出现 |
+
+> 👉 普通用户（只是浏览/下载市场）**不需要用任何命令**。只有作者/维护者（要上架或改版的人）才用 `publish.mjs`。
+
+### 前置准备（只需一次）
+
+```bash
+# 1. 装 Node.js（≥ 20，含 npm）
+# 2. 克隆官方仓库
+git clone https://github.com/xiajiajun516/dsh-config-market.git
+cd dsh-config-market
+```
+
+> 本机已装好 Node 的话，直接跳过第 1 步。`validate-repo.mjs` 能自动找到本机已安装的 dsh-config-manager 插件，无需额外 `npm i`。
+
+### 发布一个新条目
+
+```bash
+node scripts/publish.mjs \
+  --zip 你的配置.zip \
+  --id 条目id \
+  --name "条目显示名" \
+  --version 1.0.0 \
+  --description "一句话描述" \
+  --author 你的名字 \
+  --categories "plugins,skills"
+```
+
+脚本自动完成：检查 zip 路径 → 上传 → **8 道安全校验 + 秘密扫描** → 写入 `items/<id>/` → 自动更新 `index.json`（version / 时间戳 / checksum 自动同步）。最后按提示提交推送即可。
+
+> 💡 **Windows 用户**（PowerShell / CMD）：把命令写成一行即可（去掉 `\` 换行），例如：
+> `node scripts/publish.mjs --zip 你的配置.zip --id 条目id --name "条目显示名" --version 1.0.0`
+
+**参数说明（通俗版）**：
+
+| 参数 | 必填 | 说明 |
+|---|---|---|
+| `--zip` | ✅ | 你的配置文件路径（用插件的「导出」功能生成，结构天然正确） |
+| `--id` | ✅ | 条目身份证号：字母/数字开头，只能含 `. _ -`，**整个市场唯一**（与他人重复会被 CI 拦下） |
+| `--name` | ✅ | 卡片上显示的名字 |
+| `--version` | — | 版本号，默认 `1.0.0`；**每次更新记得升版本**（如 1.0.0 → 1.0.1） |
+| `--description` | — | 一句话描述 |
+| `--author` | — | 作者名（纯展示） |
+| `--categories` | — | 分类标签，逗号分隔（如 `plugins,skills`） |
+| `--repo-url` | — | **可选**：你的自托管仓库地址（填了就是"作者自托管"模式，见下） |
+| `--dry-run` | — | 只做校验不写仓库（试跑用） |
+
+### 更新已有条目
+
+**情况 A：条目没有 `--repo-url`（官方托管）** —— 改配置 → 重新导出 zip → 跑同一条命令（记得 `--version` 升版）→ 脚本自动更新 `items/<id>/` 和 `index.json` → 提交推送 → 用户端刷新即得新版。
+
+**情况 B：条目带 `--repo-url`（作者自托管，推荐给维护者）** —— 改配置 → 重新导出 → 把 `items/<id>/` 推到**你自己的仓库** → **完事，不用提 PR**。用户端每次下载都从你的仓库实时拉取，作者更新配置无需经官方审核。
+
+> ⚠️ 无论哪种方式：**不能只换 zip 不换 manifest**（checksum 对不上 = 校验失败，直接 `invalid`）；新内容照样要过秘密扫描。
+
+### push 后的自动检查（你不用动手）
+
+每次 `git push`（或别人提 PR）后，GitHub Actions 自动运行 `scripts/validate-repo.mjs`，检查：
+
+1. `index.json` 结构合规（字段白名单 / 格式）
+2. **条目 id 无重复**（插件端本来不查重，这里补上）
+3. 每个官方托管条目的 **8 道安全校验**（与插件下载端同一套函数）
+4. **内容级秘密扫描**（残留的 api key / token 字样自动拦下）
+5. checksum 自洽（manifest 声明的值与 config.zip 实算一致）
+
+结果在 GitHub 仓库的 **Actions 标签页**查看：✅ 绿 = 可放心合并；❌ 红 = 按报错修复后重新提交。
 
 ## 如何提交一个条目（社区协作流程）
 
