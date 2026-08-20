@@ -1,0 +1,31 @@
+name: repo-validate
+
+# 触发器：推送到 main / 任何 PR
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 安装插件包：CI 用它自带的市场校验函数（与插件端 100% 同款）
+      - name: Install dsh-config-manager
+        run: npm install --no-save dsh-config-manager@latest
+
+      - name: Validate repo
+        run: node scripts/validate-repo.mjs
+
+      # 顺便验证发布脚本语法正确（不实际发布）
+      - name: Syntax-check publish script
+        run: node --check scripts/publish.mjs
