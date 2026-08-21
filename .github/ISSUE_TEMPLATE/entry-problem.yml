@@ -1,0 +1,47 @@
+name: 🐛 条目故障 / 下架申请
+description: 某个条目下载失败、校验不过、内容疑似有问题，或要求下架
+title: "[条目问题] "
+labels: ["条目问题 / Entry Issue"]
+body:
+  - type: input
+    id: item-id
+    attributes:
+      label: 出问题的条目 ID
+      placeholder: 例如 common-plugins-and-skills
+    validations:
+      required: true
+  - type: dropdown
+    id: problem-type
+    attributes:
+      label: 问题类型
+      options:
+        - 下载/安装失败（校验不过、报错）
+        - 内容疑似含敏感信息（密钥/token）
+        - 条目过期 / 作者要求下架
+        - 描述不符 / 疑似骗人条目
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 具体情况
+      description: 越具体越好：操作步骤、报错原文、截图链接等
+      placeholder: 我做了什么 → 出现什么现象 → 报错原文（如有）
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: 出问题的版本号（如知道）
+      placeholder: 例如 1.0.0
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 紧急程度
+      options:
+        - 一般（可稍后处理）
+        - 较急（影响正常使用）
+        - 很急（疑似恶意/泄密 → 请改走 SECURITY.md 的私密报告）
+    validations:
+      required: true

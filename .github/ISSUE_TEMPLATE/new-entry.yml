@@ -1,0 +1,62 @@
+name: 📦 新条目 / 新分类申请
+description: 想收录一个新配置条目，或申请新增分类
+title: "[新条目] "
+labels: ["收录申请 / New Entry"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢投稿！发完这个申请后，正式收录仍需合并对应的 PR（用插件「我的配置」一键上传会自动提 PR，是最省事的方式）。
+  - type: input
+    id: item-id
+    attributes:
+      label: 条目 ID
+      description: 只含字母/数字/点/下划线/连字符，全市场唯一
+      placeholder: 例如 my-config-001
+    validations:
+      required: true
+  - type: input
+    id: item-name
+    attributes:
+      label: 条目名称（卡片上显示的名字）
+    validations:
+      required: true
+  - type: textarea
+    id: item-desc
+    attributes:
+      label: 一句话描述
+      description: 这个配置是做什么的
+      placeholder: 例如：常用插件 + skill 合集
+    validations:
+      required: true
+  - type: dropdown
+    id: hosting
+    attributes:
+      label: 计划用什么方式托管
+      options:
+        - 官方托管（条目内容放进本仓库 items/<id>/）
+        - 作者自托管（自己有公开仓库，填 repo 引用）
+        - 还没想好，请指教
+      default: 2
+    validations:
+      required: true
+  - type: input
+    id: repo-url
+    attributes:
+      label: 自托管仓库地址（选「作者自托管」时填写）
+      placeholder: https://github.com/你的名字/你的仓库
+  - type: dropdown
+    id: category
+    attributes:
+      label: 想归入哪个分类
+      options:
+        - plugins
+        - skills
+        - settings
+        - models
+        - agent-presets
+        - 其他（请在下方说明）
+  - type: textarea
+    id: extra
+    attributes:
+      label: 其他说明

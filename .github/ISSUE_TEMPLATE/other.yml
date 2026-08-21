@@ -1,0 +1,16 @@
+name: 💬 其他问题 / 建议
+description: 对市场本身的疑问、想法或任何其他话题
+title: "[其他] "
+labels: ["其他 / Other"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        对市场本身有疑问、有想法？随便写，建议和吐槽都欢迎。
+  - type: textarea
+    id: content
+    attributes:
+      label: 你想说什么？
+      placeholder: 遇到的问题、想加的功能、对某个流程的意见……都可以写
+    validations:
+      required: true

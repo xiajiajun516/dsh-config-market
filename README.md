@@ -22,7 +22,13 @@ dsh-config-market/
 ├── scripts/                    # 自动化工具（见「发布/更新/投稿 实操指南」）
 │   ├── publish.mjs             #   一键发布/更新条目
 │   └── validate-repo.mjs       #   仓库预检（CI 自动调用）
-├── .github/workflows/          # CI 配置（push/PR 自动预检）
+├── .github/                    # GitHub 端配置（CI / Issue 表单 / PR 模板）
+│   ├── workflows/validate.yml  #   CI 预检（push/PR 自动跑）
+│   ├── ISSUE_TEMPLATE/         #   Issue 表单（新条目/故障/其他）
+│   └── PULL_REQUEST_TEMPLATE.md#   PR 模板
+├── CONTRIBUTING.md             # 投稿指南
+├── SECURITY.md                 # 安全问题报告通道
+├── LICENSE                     # MIT 授权（仅限本仓库自身内容）
 └── items/
     └── <itemId>/               # 每个条目一个目录；目录名 = itemId
         ├── manifest.json       # L2 条目清单（sections + checksums + 供应链信息）
@@ -122,7 +128,23 @@ node scripts/publish.mjs \
 
 结果在 GitHub 仓库的 **Actions 标签页**查看：✅ 绿 = 可放心合并；❌ 红 = 按报错修复后重新提交。
 
-## 如何提交一个条目（社区协作流程）
+## 用插件一键发布（零命令行，推荐）
+
+安装 **dsh-config-manager** 插件后，作者**不需要碰命令行**，直接在插件市场面板的「我的配置」里完成发布：
+
+1. **打开**：dsh-config-manager → 「市场」tab → 顶部切换到「我的配置」；
+2. **登录 GitHub**：点「使用 GitHub 登录」，按提示在浏览器完成授权（一次性授权码，token 只存在本机插件凭据里，不会上传）；
+3. **选包上传**：选择用「导出」功能生成的配置 zip → 本地 8 道校验 + 秘密扫描（含密钥会被当场拒绝）→ 填名称 / 描述 / 分类（可选）→ 点「一键上传」；
+4. **插件自动完成**：
+   - 把你的配置写进**你自己的公开仓库**（`<你的GitHub名>/dsh-configs`，没有会自动创建）；
+   - 自动 **fork 本市场仓库** → 在 `index.json` 里追加一条**自托管引用**（`repo` 字段指向你的仓库）→ 自动提交**收录 PR**；
+   - 条目 ID / 作者 / 版本 / 时间 / SHA-256 等元数据全部自动生成，你只需填少量描述；
+5. **合并后生效**：PR 由维护者人工审核合并后，条目即出现在本市场；条目内容始终从你的仓库实时拉取，之后你更新配置（「一键更新」）不需要再提 PR。
+
+> 📌 收录目标仓库固定为本仓库 `xiajiajun516/dsh-config-market`（插件内写死，界面不可修改）；
+> 「装回本地」、状态徽章（未收录 / PR 待审核 / 已收录）都在「我的配置」里可视化展示。
+
+## 如何提交一个条目（社区协作流程·手动）
 
 1. 在 dsh-config-manager「发布到市场」向导完成发布：
    选 zip → 本地校验（拒绝含密钥）→ 生成条目包（manifest + SHA-256）→ 下载发布包；
@@ -133,6 +155,13 @@ node scripts/publish.mjs \
    作者更新配置无需再提 PR。
 
 > 也可以在 PR 里直接附上 `items/<id>/`（条目本体），由官方仓库托管。
+
+## 版权与授权
+
+- 本仓库**自身内容**（`index.json`、`README.md`、`docs/`、`scripts/` 等）以 **MIT License** 授权（见 [LICENSE](LICENSE)）；
+- **条目内容版权归各自作者**：`items/<id>/` 下或自托管仓库里的配置，被收录到市场**不代表版权转让**；
+- 通过插件「我的配置」一键上传的条目同理，作者保留其配置的完整权利；
+- 引用本仓库内容时请保留来源标注（署名 + 链接）。
 
 ## 技术规格
 
