@@ -1,7 +1,7 @@
 name: 💬 其他问题 / 建议 · Other Questions / Suggestions
 description: 对市场本身的疑问、想法或任何其他话题 / Questions, ideas, or any other topic about the marketplace itself
 title: "[其他/Other] "
-labels: ["其他 / Other"]
+labels: ["question"]
 body:
   - type: markdown
     attributes:

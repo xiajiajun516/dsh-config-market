@@ -1,7 +1,7 @@
 name: 📦 新条目 / 新分类申请 · New Entry / Category Request
 description: 想收录一个新配置条目，或申请新增分类 / Request to add a new config entry, or propose a new category
 title: "[新条目/New Entry] "
-labels: ["收录申请 / New Entry"]
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
