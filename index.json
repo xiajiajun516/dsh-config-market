@@ -14,6 +14,14 @@
         "plugins",
         "skills"
       ]
+    },
+    {
+      "id": "dsh-config-2026-08-24-2504df",
+      "name": "dsh-config-2026-08-24-2504df",
+      "author": "The---onE",
+      "version": "1.0.0",
+      "updatedAt": "2026-08-24T02:16:50.528Z",
+      "repo": "https://github.com/The---onE/dsh-configs"
     }
   ]
 }
