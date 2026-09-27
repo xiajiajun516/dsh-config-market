@@ -6,10 +6,10 @@
     {
       "id": "common-plugins",
       "name": "常用插件清单",
-      "description": "常用 DSH 插件清单（仅 plugins 分区，不含设置 / 技能 / 密钥）",
+      "description": "精选 10 个常用 DSH 插件清单（仅插件条目；不含 patch 行、pnpm workspace 配置、设置、技能与密钥）",
       "author": "xiajiajun516",
-      "version": "1.0.0",
-      "updatedAt": "2026-09-27T18:10:36.867Z",
+      "version": "1.0.1",
+      "updatedAt": "2026-09-27T18:17:33.290Z",
       "categories": [
         "plugins"
       ]
