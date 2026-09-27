@@ -22,6 +22,17 @@
       "version": "1.0.0",
       "updatedAt": "2026-08-26T01:56:35.049Z",
       "repo": "https://github.com/The---onE/dsh-configs"
+    },
+    {
+      "id": "common-plugins",
+      "name": "常用插件清单",
+      "description": "常用 DSH 插件清单（仅 plugins 分区，不含设置 / 技能 / 密钥）",
+      "author": "xiajiajun516",
+      "version": "1.0.0",
+      "updatedAt": "2026-09-27T18:10:36.867Z",
+      "categories": [
+        "plugins"
+      ]
     }
   ]
 }

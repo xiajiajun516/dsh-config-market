@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "common-plugins",
+  "name": "常用插件清单",
+  "version": "1.0.0",
+  "description": "常用 DSH 插件清单（仅 plugins 分区，不含设置 / 技能 / 密钥）",
+  "author": "xiajiajun516",
+  "updatedAt": "2026-09-27T18:10:36.867Z",
+  "categories": [
+    "plugins"
+  ],
+  "sections": [
+    "plugins"
+  ],
+  "checksums": {
+    "zip": "cda736cd3d119bb1abed5ec5d16c4fdec9f5012e97884b8b887076c01c9380d2"
+  }
+}
