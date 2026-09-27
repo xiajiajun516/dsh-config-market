@@ -7,7 +7,7 @@ body:
     id: item-id
     attributes:
       label: 出问题的条目 ID / Problematic entry ID
-      placeholder: 例如 common-plugins-and-skills / e.g. common-plugins-and-skills
+      placeholder: 例如 common-plugins / e.g. common-plugins
     validations:
       required: true
   - type: dropdown
